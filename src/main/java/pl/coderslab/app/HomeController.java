@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.coderslab.article.ArticleService;
 import pl.coderslab.category.CategoryService;
 
+import java.util.stream.Collectors;
+
 @Controller
 public class HomeController {
 
@@ -22,6 +24,14 @@ public class HomeController {
     @GetMapping("/last")
     @ResponseBody
     public String last() {
-        return articleService.findNoOfLast(5).toString() + categoryService.findAll();
+//        articleService.findNoOfLast(5).stream().map(a->a.getContent().substring(0,200)).collect(Collectors.toList())
+        return articleService.findNoOfLast(5)
+//                .stream()
+//                .forEach(a->a.setContent("a")).
+//                        (a.getContent()
+//                        .substring(0,a.getContent().length()>200?200:a.getContent().length())))
+//                .collect(Collectors.toList())
+                .toString()
+                + categoryService.findAll();
     }
 }
