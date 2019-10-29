@@ -17,7 +17,9 @@ public class Article {
     private String title; // (max. 200 znaków),
     @ManyToOne
     private Author author; // - (powiązanie relacją do klasy Author) - artykuł może mieć tylko jednego autora
-    @ManyToMany(mappedBy = "articles")
+//    @ManyToMany(mappedBy = "articles")
+    @ManyToMany
+    @JoinTable(name = "article_categories")
     private List<Category> categories; // - (powiązanie relacją do klasy Category) - artykuł może należeć do wielu kategorii
     private String content;
     private LocalDateTime created; // (wartość ma być automatycznie dodawana podczas zapisu)

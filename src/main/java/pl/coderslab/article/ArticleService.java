@@ -1,5 +1,6 @@
 package pl.coderslab.article;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,19 @@ public class ArticleService {
     }
 
     public Article findOne(Long id){
-        return articleDao.findOne(id);
+        Article article = articleDao.findOne(id);
+//        article.getCategories();
+        return article;
+    }
+
+    public Article findArticleWithCategories(Long id){
+        Article article = articleDao.findOne(id);
+        Hibernate.initialize(article.getCategories());
+        return article;
+    }
+
+    public List<Article> findAll(){
+        return articleDao.findAll();
     }
 
     public void delete(Long id){

@@ -14,8 +14,9 @@ public class Category {
     @Column(length = 100)
     private String name;// (max 100 znaków)
     private String description;
-    @ManyToMany
-    @JoinTable(name = "article_categories")
+    //    @ManyToMany
+//    @JoinTable(name = "article_categories")
+    @ManyToMany(mappedBy = "categories")
     private List<Article> articles;
 
     public Long getId() {

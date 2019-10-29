@@ -1,5 +1,6 @@
 package pl.coderslab.article;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import pl.coderslab.author.Author;
 
@@ -27,9 +28,20 @@ public class ArticleDao {
         return entityManager.find(Article.class, id);
     }
 
+//    public Article FindArticleWithCategories(Long id){
+//        Article article = findOne(id);
+//        Hibernate.initialize(article.getCategories());
+//        return article;
+//    }
+
     public List<Article> findNoOfLast(int limit){
         Query query = entityManager.createQuery("select a from Article a order by a.created desc");
             query.setMaxResults(limit);
+        return query.getResultList();
+    }
+
+    public List<Article> findAll(){
+        Query query = entityManager.createQuery("select a from Article a");
         return query.getResultList();
     }
 
