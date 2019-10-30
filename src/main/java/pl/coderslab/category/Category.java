@@ -3,6 +3,8 @@ package pl.coderslab.category;
 import pl.coderslab.article.Article;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -12,6 +14,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 100)
+    @NotBlank
+    @Size(min=5)
     private String name;// (max 100 znaków)
     private String description;
     //    @ManyToMany

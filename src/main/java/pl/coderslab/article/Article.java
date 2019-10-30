@@ -4,6 +4,9 @@ import pl.coderslab.author.Author;
 import pl.coderslab.category.Category;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,13 +17,18 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length=200)
+    @NotBlank
+    @Size(max=200)
     private String title; // (max. 200 znaków),
     @ManyToOne
     private Author author; // - (powiązanie relacją do klasy Author) - artykuł może mieć tylko jednego autora
 //    @ManyToMany(mappedBy = "articles")
     @ManyToMany
     @JoinTable(name = "article_categories")
+    @NotEmpty
     private List<Category> categories; // - (powiązanie relacją do klasy Category) - artykuł może należeć do wielu kategorii
+    @NotBlank
+    @Size(min=500)
     private String content;
     private LocalDateTime created; // (wartość ma być automatycznie dodawana podczas zapisu)
     private LocalDateTime updated; // (wartość ma być automatycznie zmieniana podczas edycji).
