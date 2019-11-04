@@ -35,13 +35,21 @@ public class ArticleDao {
 //    }
 
     public List<Article> findNoOfLast(int limit){
-        Query query = entityManager.createQuery("select a from Article a order by a.created desc");
+        Query query = entityManager
+                .createQuery("select a from Article a order by a.created desc");
             query.setMaxResults(limit);
         return query.getResultList();
     }
 
     public List<Article> findAll(){
-        Query query = entityManager.createQuery("select a from Article a");
+        Query query = entityManager
+                .createQuery("select a from Article a where a.draft=false");
+        return query.getResultList();
+    }
+
+    public List<Article> findAllDarfts(){
+        Query query = entityManager
+                .createQuery("select a from Article a where a.draft=true");
         return query.getResultList();
     }
 

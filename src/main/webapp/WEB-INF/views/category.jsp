@@ -17,9 +17,11 @@
 <form:form method="post" modelAttribute="category">
     <label>Name:
         <form:input path="name"></form:input>
+        <form:errors path="name" element="div" cssStyle="color:red"></form:errors>
     </label><br><br>
     <label>Description:
         <form:input path="description"></form:input>
+        <form:errors path="description" element="div" cssStyle="color:red"></form:errors>
     </label><br><br>
     <input type="submit" value="Save">
 </form:form>

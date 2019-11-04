@@ -12,15 +12,19 @@
     <script>
         function confirmDelete(id, title) {
             if (confirm("Do you want to delete an article '" + title + "'?")) {
-                window.location.href = "/articles/delete/" + id;
+                window.location.href = "./delete/" + id;
             }
         }
     </script>
     <title>Articles</title>
 </head>
 <body>
-
-<h2>Articles' list</h2>
+<c:if test="${articles.get(0).draft}">
+    <h2>Drafts' list</h2>
+</c:if>
+<c:if test="${!articles.get(0).draft}">
+    <h2>Articles' list</h2>
+</c:if>
 <table border="2">
     <tbody>
     <tr>
@@ -29,7 +33,12 @@
         <th width="200">Content</th>
         <th width="50">Created</th>
         <th width="50">Updated</th>
-        <th  width="150"colspan="2"> Action</th>
+        <c:if test="${!articles.get(0).draft}">
+            <th width="150" colspan="2"> Action</th>
+        </c:if>
+        <c:if test="${articles.get(0).draft}">
+            <th width="150" colspan="3"> Action</th>
+        </c:if>
     </tr>
     <c:forEach items="${articles}" var="article">
         <tr>
@@ -38,8 +47,11 @@
             <td>${article.content}</td>
             <td>${article.created}</td>
             <td>${article.updated}</td>
-            <td align="center"><a href="/articles/edit/${article.id}">Edit</a></td>
+            <td align="center"><a href="./edit/${article.id}">Edit</a></td>
             <td align="center"><a href="#" onclick="confirmDelete(${article.id}, '${article.title}')">Delete </a></td>
+            <c:if test="${articles.get(0).draft}">
+                <td align="center"><a href="../articles/edit/${article.id}">to article</a></td>
+            </c:if>
         </tr>
     </c:forEach>
 

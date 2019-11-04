@@ -2,6 +2,9 @@ package pl.coderslab.article;
 
 import pl.coderslab.author.Author;
 import pl.coderslab.category.Category;
+import pl.coderslab.validate.ArticleValidationGroup;
+import pl.coderslab.validate.Categories;
+import pl.coderslab.validate.DraftValidationGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,22 +19,29 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length=200)
-    @NotBlank
-    @Size(max=200)
-    private String title; // (max. 200 znaków),
+
+    @Column(length = 200)
+    @NotBlank(groups = {ArticleValidationGroup.class, DraftValidationGroup.class})
+    @Size(max = 200, groups = {ArticleValidationGroup.class, DraftValidationGroup.class})
+    private String title;
+
     @ManyToOne
-    private Author author; // - (powiązanie relacją do klasy Author) - artykuł może mieć tylko jednego autora
-//    @ManyToMany(mappedBy = "articles")
+    private Author author;
+
+    //    @ManyToMany(mappedBy = "articles")
     @ManyToMany
     @JoinTable(name = "article_categories")
-    @NotEmpty
-    private List<Category> categories; // - (powiązanie relacją do klasy Category) - artykuł może należeć do wielu kategorii
-    @NotBlank
-    @Size(min=500)
+    @NotEmpty(groups = {ArticleValidationGroup.class})
+    @Categories(value = 5, groups = {ArticleValidationGroup.class})
+    private List<Category> categories;
+
+    @NotBlank(groups = {ArticleValidationGroup.class, DraftValidationGroup.class})
+    @Size(min = 5, groups = {ArticleValidationGroup.class, DraftValidationGroup.class})
     private String content;
-    private LocalDateTime created; // (wartość ma być automatycznie dodawana podczas zapisu)
-    private LocalDateTime updated; // (wartość ma być automatycznie zmieniana podczas edycji).
+
+    private LocalDateTime created;
+    private LocalDateTime updated;
+    private boolean draft;
 
 
     @PrePersist
@@ -99,6 +109,14 @@ public class Article {
 
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
     }
 
     @Override

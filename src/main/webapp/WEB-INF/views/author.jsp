@@ -17,10 +17,12 @@
 <form:form method="post" modelAttribute="author">
     <label>First name:
         <form:input path="firstName"></form:input>
+        <form:errors path="firstName" element="div" cssStyle="color:red"></form:errors>
     </label><br><br>
 
     <label>Last name:
         <form:input path="lastName"></form:input>
+        <form:errors path="lastName" element="div" cssStyle="color:red"></form:errors>
     </label><br><br>
 
     <input type="submit" value="Save">

@@ -11,20 +11,21 @@ import pl.coderslab.author.AuthorService;
 import pl.coderslab.category.Category;
 import pl.coderslab.category.CategoryService;
 import pl.coderslab.validate.ArticleValidationGroup;
+import pl.coderslab.validate.DraftValidationGroup;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/articles")
-public class ArticleController {
+@RequestMapping("/drafts")
+public class DraftController {
 
     private final ArticleService articleService;
     private final CategoryService categoryService;
     private final AuthorService authorService;
 
     @Autowired
-    public ArticleController(ArticleService articleService, CategoryService categoryService, AuthorService authorService) {
+    public DraftController(ArticleService articleService, CategoryService categoryService, AuthorService authorService) {
         this.articleService = articleService;
         this.categoryService = categoryService;
         this.authorService = authorService;
@@ -33,7 +34,7 @@ public class ArticleController {
 
     @GetMapping("/list")
     public String show(Model model) {
-        model.addAttribute("articles", articleService.findAll());
+        model.addAttribute("articles", articleService.findAllDrafts());
         return "articles";
     }
 
@@ -51,11 +52,11 @@ public class ArticleController {
     }
 
     @PostMapping("/add")
-    public String add(@Validated(ArticleValidationGroup.class) @ModelAttribute Article article, BindingResult result) {
+    public String add(@Validated(DraftValidationGroup.class)  @ModelAttribute Article article, BindingResult result) {
         if(result.hasErrors()){
             return "article";
         }
-        article.setDraft(false);
+        article.setDraft(true);
         articleService.create(article);
         return ("redirect:list");
     }
@@ -67,11 +68,11 @@ public class ArticleController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@Validated(ArticleValidationGroup.class)  @ModelAttribute Article article, BindingResult result) {
+    public String edit(@Validated(DraftValidationGroup.class)  @ModelAttribute Article article, BindingResult result) {
         if(result.hasErrors()){
             return "article";
         }
-        article.setDraft(false);
+        article.setDraft(true);
         articleService.update(article);
         return "redirect:../list";
     }
